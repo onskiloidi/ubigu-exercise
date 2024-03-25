@@ -6,7 +6,6 @@ interface Props {
 
 export function HedgehogForm({ coordinates }: Props) {
   console.log(coordinates);
-
   return (
     <Paper
       elevation={3}
