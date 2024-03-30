@@ -29,10 +29,10 @@ export async function getAllHedgehogs() {
 //   }
 
 // Yksittäisen siilin lisäämisen sovelluslogiikka
-  export async function addHedgehog(name: string, gender: string, cakeday: string | null) {
+  export async function addHedgehog(hedgehog_name: string, hedgehog_gender: string, hedgehog_cakeday: string | null) {
     try {
       const hedgehog = await getPool().one(
-        sql.type(hedgehogSchema)`INSERT INTO hedgehog(hedgehog_name, hedgehog_gender, hedgehog_cakeday) VALUES (${name},${gender}, ${cakeday} || NULL) RETURNING *;`
+        sql.type(hedgehogSchema)`INSERT INTO hedgehog(hedgehog_name, hedgehog_gender) VALUES (${hedgehog_name},${hedgehog_gender}) RETURNING *;`
       );
   
       return hedgehog;

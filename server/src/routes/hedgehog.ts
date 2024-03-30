@@ -3,9 +3,9 @@ import { getAllHedgehogs, addHedgehog } from "@server/application/hedgehog";
 import { FastifyInstance, FastifyPluginOptions } from "fastify";
 
 interface HedgehogRequest {
-    name: string;
-    gender: string;
-    cakeday: string;
+    hedgehog_name: string;
+    hedgehog_gender: string;
+    hedgehog_cakeday: string;
 }
 
 export function hedgehogRouter(
@@ -32,9 +32,14 @@ export function hedgehogRouter(
     // });
 
     fastify.post<{ Body: HedgehogRequest }>('/add_hedgehog', async (_request, reply) => {
-        let { name, gender, cakeday } = _request.body;
-        const hedgehog = await addHedgehog(name, gender, cakeday);
-        return reply.code(201).send({ hedgehog });
+        let { hedgehog_name, hedgehog_gender, hedgehog_cakeday } = _request.body;
+        // let status = {hedgehog_name, hedgehog_gender, hedgehog_cakeday};
+        // return reply.send({ status });
+        if(hedgehog_name.trim() == ''){
+            return reply.send({ 'status' : 0, 'message' : 'Siilin nimi on pakollinen tieto' });
+        }
+        const hedgehog = await addHedgehog(hedgehog_name, hedgehog_gender, hedgehog_cakeday);
+        return reply.code(201).send({ 'status' : 1, 'message' : 'Uusi siili tallennettu!', 'hedgehog' : hedgehog });
     });
 
     //   // Yksittäisen siilin hakeminen tietokannasta ID:llä

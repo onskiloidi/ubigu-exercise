@@ -23,8 +23,17 @@ export function HedgehogForm({ coordinates }: Props) {
             body: JSON.stringify(formDataObject)
         })
         .then(response => {
-            console.log(response);
-        }).catch (error => console.error(error));
+            if (!response.ok) {
+                throw new Error('Verkkopyyntö epäonnistui');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data); // Tässä on vastauksen data, jonka Fastify-palvelin lähetti
+            console.dir(data); 
+            console.log('Vastaanotettu data:', JSON.stringify(data, null, 2));
+        })
+        .catch (error => console.error(error));
         
     };
 
@@ -60,8 +69,8 @@ export function HedgehogForm({ coordinates }: Props) {
             <FormControl>
                 <FormLabel id="siiliGender">Siilin sukupuoli</FormLabel>
                 <RadioGroup aria-labelledby="siiliGender" defaultValue="male" name="hedgehog_gender">
-                    <FormControlLabel value="male" control={<Radio />} label="Uros" />
-                    <FormControlLabel value="female" control={<Radio />} label="Naaras" />
+                    <FormControlLabel value="M" control={<Radio />} label="Uros" />
+                    <FormControlLabel value="F" control={<Radio />} label="Naaras" />
                 </RadioGroup>
             </FormControl>
             </div>
