@@ -10,10 +10,12 @@ export default function HedgeHogList() {
     const getAllHedgehogs = async () => {
       try {
         const res = await fetch("/api/v1/hedgehog");
+        console.log(res);
         if (!res.ok) return;
 
         const json = await res.json();
         setHedgehogs(json?.hedgehogs || []);
+        console.log(hedgehogs);
       } catch (err) {
         console.error(`Error while fetching hedgehogs: ${err}`);
       }

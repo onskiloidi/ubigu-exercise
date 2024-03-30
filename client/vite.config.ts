@@ -4,7 +4,7 @@ import checker from 'vite-plugin-checker';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
 const serverOptions: CommonServerOptions = {
-  host: '0.0.0.0',
+  host: '::',
   port: 8080,
   proxy: {
     '/api': 'http://server:3003',

@@ -15,24 +15,24 @@ export async function getAllHedgehogs() {
   }
 }
 
-// Yksittäisen siilin hakeminen tietokannasta ID:llä
-export async function getHedgehogByID(hedgehog_id) {
-    try {
-      const hedgehog = await getPool().one(
-        sql.type(hedgehogSchema)`SELECT * FROM hedgehog WHERE id = ${hedgehog_id}`
-      );
+// // Yksittäisen siilin hakeminen tietokannasta ID:llä
+// export async function getHedgehogByID(hedgehog_id) {
+//     try {
+//       const hedgehog = await getPool().one(
+//         sql.type(hedgehogSchema)`SELECT * FROM hedgehog WHERE id = ${hedgehog_id}`
+//       );
   
-      return hedgehog;
-    } catch (error) {
-      logger.error(error);
-    }
-  }
+//       return hedgehog;
+//     } catch (error) {
+//       logger.error(error);
+//     }
+//   }
 
-  // Yksittäisen siilin lisäämisen sovelluslogiikka
-  export async function addHedgeHog() {
+// Yksittäisen siilin lisäämisen sovelluslogiikka
+  export async function addHedgehog(name: string, gender: string, cakeday: string | null) {
     try {
       const hedgehog = await getPool().one(
-        sql.type(hedgehogSchema)`INSERT INTO table1(hedgehog_name, hedgehog_gender, hedgehog_cakeday) VALUES (value1, value2, …) RETURNING *;`
+        sql.type(hedgehogSchema)`INSERT INTO table1(hedgehog_name, hedgehog_gender, hedgehog_cakeday) VALUES (${name},${gender}, ${cakeday}) RETURNING *;`
       );
   
       return hedgehog;

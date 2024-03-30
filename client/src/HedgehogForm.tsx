@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useEffect, useState } from "react";
 import { Paper, Typography, Button, TextField, FormControl, FormLabel, RadioGroup,FormControlLabel, Radio} from '@mui/material';
 
 interface Props {
@@ -6,53 +6,67 @@ interface Props {
 }
 
 export function HedgehogForm({ coordinates }: Props) {
-    console.log(coordinates);
-    const addHedgehod = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const formdata = new FormData(event.target);
-        // const data = {
-        //     email: rawdata.get('email'),
-        //     password: rawdata.get('password'),
-        // };
-        fetch('http://localhost:8080/add_hegdehog', {
+    // console.log(coordinates)
+    const addHedgehod = async (e) => {
+        e.preventDefault();
+        const formdata = new FormData(e.currentTarget);
+        const formDataObject = {};
+        formdata.forEach((value, key) => {
+            formDataObject[key] = value;
+        });
+        console.log(JSON.stringify(formDataObject));
+        fetch('/api/v1/hedgehog/add_hedgehog', {
         method: 'POST',
         headers:{
             'Content-Type' : 'application/json'
         },
-            body: JSON.stringify(data)
+            body: JSON.stringify(formDataObject)
         })
         .then(response => {
             console.log(response);
-            // console.log("response ok: " + response.ok);
-            // console.log("response status: " + response.status);
-            // console.log("response json: " + response.json());
-            // if(response.ok) {
-            //     console.log('Form data sent successfully');
-            //     return response.json();
-            // } else {
-            //     console.error('Failed to send form data');
-            // }
-        }).catch (error => console.error(error))
+        }).catch (error => console.error(error));
+        
     };
+
+    // const addHedgehod = async (e) => {
+    //     e.preventDefault();
+    //     const formdata = new FormData(e.currentTarget);
+    
+    //     // Muodosta kyselyparametrit suoraan FormData-oliosta
+    //     const queryParams = new URLSearchParams();
+    //     for (const [key, value] of formdata) {
+    //         queryParams.append(key, value);
+    //     }
+    
+    //     fetch(`/add_hedgehog?${queryParams.toString()}`, {
+    //         method: 'GET',
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         }
+    //     })
+    //     .then(response => {
+    //         console.log(response);
+    //     }).catch (error => console.error(error));
+    // };
 
     return (
         <Paper elevation={3} style={{ padding: '20px' }}>
         <Typography variant="h4">Lisää uusi siili</Typography>
         <form onSubmit={addHedgehod}>
             <div>
-                <TextField label="Siilin nimi" variant="outlined" margin="normal" fullWidth />
+                <TextField label="Siilin nimi" variant="outlined" margin="normal" fullWidth name="hedgehog_name" />
             </div>
             <div>
             <FormControl>
                 <FormLabel id="siiliGender">Siilin sukupuoli</FormLabel>
-                <RadioGroup aria-labelledby="siiliGender" defaultValue="male" name="radio-buttons-group">
+                <RadioGroup aria-labelledby="siiliGender" defaultValue="male" name="hedgehog_gender">
                     <FormControlLabel value="male" control={<Radio />} label="Uros" />
                     <FormControlLabel value="female" control={<Radio />} label="Naaras" />
                 </RadioGroup>
             </FormControl>
             </div>
             <div>
-                <TextField label="Siilin syntymäaika" variant="outlined" margin="normal" fullWidth />
+                <TextField label="Siilin syntymäaika" variant="outlined" margin="normal" fullWidth name="hedgehog_cakeday" />
             </div>
             <Button type="submit">Tallenna siili</Button>
         </form>
