@@ -32,7 +32,7 @@ export async function getAllHedgehogs() {
   export async function addHedgehog(name: string, gender: string, cakeday: string | null) {
     try {
       const hedgehog = await getPool().one(
-        sql.type(hedgehogSchema)`INSERT INTO table1(hedgehog_name, hedgehog_gender, hedgehog_cakeday) VALUES (${name},${gender}, ${cakeday}) RETURNING *;`
+        sql.type(hedgehogSchema)`INSERT INTO hedgehog(hedgehog_name, hedgehog_gender, hedgehog_cakeday) VALUES (${name},${gender}, ${cakeday} || NULL) RETURNING *;`
       );
   
       return hedgehog;

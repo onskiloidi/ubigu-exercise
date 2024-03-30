@@ -32,7 +32,7 @@ export function hedgehogRouter(
     // });
 
     fastify.post<{ Body: HedgehogRequest }>('/add_hedgehog', async (_request, reply) => {
-        const { name, gender, cakeday } = _request.body;
+        let { name, gender, cakeday } = _request.body;
         const hedgehog = await addHedgehog(name, gender, cakeday);
         return reply.code(201).send({ hedgehog });
     });
