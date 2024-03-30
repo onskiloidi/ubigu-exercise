@@ -17,10 +17,8 @@ export function HedgehogForm({ coordinates }: Props) {
         });
         console.log(JSON.stringify(formDataObject));
         fetch('/api/v1/hedgehog/add_hedgehog', {
-        method: 'POST',
-        headers:{
-            'Content-Type' : 'application/json'
-        },
+            method: 'POST',
+            headers: {'Content-Type' : 'application/json'},
             body: JSON.stringify(formDataObject)
         })
         .then(response => {
@@ -48,8 +46,8 @@ export function HedgehogForm({ coordinates }: Props) {
             <div>
             <FormControl>
                 <FormLabel id="siiliGender">Siilin sukupuoli</FormLabel>
-                <RadioGroup aria-labelledby="siiliGender" defaultValue="male" name="hedgehog_gender">
-                    <FormControlLabel value="M" control={<Radio />} label="Uros" />
+                <RadioGroup aria-labelledby="siiliGender" defaultValue="M" name="hedgehog_gender">
+                    <FormControlLabel value="M" control={<Radio />} label="Uros"/>
                     <FormControlLabel value="F" control={<Radio />} label="Naaras" />
                 </RadioGroup>
             </FormControl>

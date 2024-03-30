@@ -15,8 +15,8 @@ export async function getAllHedgehogs() {
   }
 }
 
-// // Yksittäisen siilin hakeminen tietokannasta ID:llä
-// export async function getHedgehogByID(hedgehog_id) {
+// Yksittäisen siilin hakeminen tietokannasta ID:llä
+// export async function getHedgehogByID(hedgehog_id: number) {
 //     try {
 //       const hedgehog = await getPool().one(
 //         sql.type(hedgehogSchema)`SELECT * FROM hedgehog WHERE id = ${hedgehog_id}`

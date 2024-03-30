@@ -31,13 +31,15 @@ export function hedgehogRouter(
         return reply.code(201).send({ 'status' : 1, 'message' : 'Uusi siili tallennettu!', 'hedgehog' : hedgehog });
     });
 
-    //   // Yksittäisen siilin hakeminen tietokannasta ID:llä
-    //   fastify.get('/get_hedgehog', async function (_request, reply) {
-    //     const hedgehog = await getHedgehogByID(hedgehog_id);
-    //     return reply.code(200).send({
-    //         hedgehog,
-    //     });
-    //   });
+    // Yksittäisen siilin hakeminen tietokannasta ID:llä
+    fastify.get('/fetch_hedgehog', async function (_request, reply) {
+        let { hedgehog_id } = _request.body;
+        return reply.send({ hedgehog_id });
+        // const hedgehog = await getHedgehogByID(hedgehog_id);
+        // return reply.code(200).send({
+        //     hedgehog,
+        // });
+    });
 
   done();
 }

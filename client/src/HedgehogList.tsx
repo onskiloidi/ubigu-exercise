@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 
 export default function HedgeHogList() {
   const [hedgehogs, setHedgehogs] = useState<Hedgehog[]>([]);
-
   // Fetch all hedgehog's during startup
   useEffect(() => {
     const getAllHedgehogs = async () => {
@@ -23,10 +22,6 @@ export default function HedgeHogList() {
 
     getAllHedgehogs();
   }, []);
-
-  const hedgehogOnMap = (hedgehog_id) => {
-    console.log('Nappia klikattu!',hedgehog_id);
-  };
 
   return (
     <Paper elevation={3} sx={{ margin: "1em", overflow: "hidden" }}>
@@ -48,7 +43,7 @@ export default function HedgeHogList() {
         <List sx={{ overflowY: "scroll", height: "100%" }}>
           {hedgehogs.map((hedgehog, index: number) => (
             <ListItem key={`hedgehog-index-${index}`} sx={{ width: "100%" }}>
-                <Button onClick={hedgehogOnMap(hedgehog.id)} type="button" sx={{ width: "100%", padding: "20px", bgcolor: "#4db1a0", color: "white" }}>
+                <Button onClick={() => hogOnMap(hedgehog.id)} type="button" sx={{ width: "100%", padding: "20px", bgcolor: "#4db1a0", color: "white" }}>
                     {hedgehog.hedgehog_name}
                 </Button>
             </ListItem>
@@ -61,3 +56,25 @@ export default function HedgeHogList() {
     </Paper>
   );
 }
+
+function hogOnMap(hedgehog_id: number) {
+    console.log(JSON.stringify({'hedgehog_id' : hedgehog_id}));
+    fetch('/api/v1/hedgehog/fetch_hedgehog', {
+        method: 'POST',
+        headers: {'Content-Type' : 'application/json'},
+        body: JSON.stringify({'hedgehog_id' : hedgehog_id})
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Epäonnistui :(');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log(data)
+        if(data.hedgehog){
+            HedgeHogList();
+        }
+    })
+    .catch (error => console.error(error));
+};
