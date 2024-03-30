@@ -20,17 +20,6 @@ export function hedgehogRouter(
         });
     });
 
-    // Yksittäisen siilin lisäämisen sovelluslogiikka
-    // fastify.get('/add_hedgehog', async function (_request, reply) {
-    //     if (_request.query) {
-    //         const { name, gender, cakeday } = _request.query;
-    //         const hedgehog = await addHedgehog(name, gender, cakeday);
-    //         return reply.code(200).send({
-    //             hedgehog,
-    //         });
-    //     }
-    // });
-
     fastify.post<{ Body: HedgehogRequest }>('/add_hedgehog', async (_request, reply) => {
         let { hedgehog_name, hedgehog_gender, hedgehog_cakeday } = _request.body;
         // let status = {hedgehog_name, hedgehog_gender, hedgehog_cakeday};

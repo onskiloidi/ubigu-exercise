@@ -1,4 +1,4 @@
-import { Box, MenuItem, Paper, Typography } from "@mui/material";
+import { Box, MenuItem, Paper, Typography, List, ListItem, Button } from "@mui/material";
 import { Hedgehog } from "@shared/hedgehog";
 import { useEffect, useState } from "react";
 
@@ -14,8 +14,8 @@ export default function HedgeHogList() {
         if (!res.ok) return;
 
         const json = await res.json();
+        console.log(json?.hedgehogs);
         setHedgehogs(json?.hedgehogs || []);
-        console.log(hedgehogs);
       } catch (err) {
         console.error(`Error while fetching hedgehogs: ${err}`);
       }
@@ -23,6 +23,10 @@ export default function HedgeHogList() {
 
     getAllHedgehogs();
   }, []);
+
+  const hedgehogOnMap = (hedgehog_id) => {
+    console.log('Nappia klikattu!',hedgehog_id);
+  };
 
   return (
     <Paper elevation={3} sx={{ margin: "1em", overflow: "hidden" }}>
@@ -41,19 +45,19 @@ export default function HedgeHogList() {
         </Typography>
       </Box>
       {hedgehogs.length ? (
-        <Box sx={{ overflowY: "scroll", height: "100%" }}>
+        <List sx={{ overflowY: "scroll", height: "100%" }}>
           {hedgehogs.map((hedgehog, index: number) => (
-            <MenuItem key={`hedgehog-index-${index}`}>{hedgehog.id}</MenuItem>
+            <ListItem key={`hedgehog-index-${index}`} sx={{ width: "100%" }}>
+                <Button onClick={hedgehogOnMap(hedgehog.id)} type="button" sx={{ width: "100%", padding: "20px", bgcolor: "#4db1a0", color: "white" }}>
+                    {hedgehog.hedgehog_name}
+                </Button>
+            </ListItem>
           ))}
-        </Box>
+        </List>
       ) : (
-        <Typography sx={{ padding: "1em" }}>
-          TODO: Mikäli tietokannasta löytyy siilejä, ne listautuvat tähän.
-          Koodaa logiikka, jolla tämän listauksen siiliä klikkaamalla siili
-          tulee valituksi, jonka jälkeen sen tiedot tulee hakea viereiseen
-          komponenttiin.
-        </Typography>
+        <Typography sx={{ padding: "1em" }}>Ei lisättyjä siilejä</Typography>
       )}
+     
     </Paper>
   );
 }

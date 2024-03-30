@@ -6,7 +6,7 @@ import { sql } from "slonik";
 export async function getAllHedgehogs() {
   try {
     const hedgehogs = await getPool().any(
-      sql.type(hedgehogSchema)`SELECT id FROM hedgehog`
+      sql.type(hedgehogSchema)`SELECT * FROM hedgehog`
     );
 
     return hedgehogs;

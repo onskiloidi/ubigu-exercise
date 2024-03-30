@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Paper, Typography, Button, TextField, FormControl, FormLabel, RadioGroup,FormControlLabel, Radio} from '@mui/material';
+import HedgeHogList from './HedgehogList';
 
 interface Props {
   coordinates: number[];
@@ -29,34 +30,13 @@ export function HedgehogForm({ coordinates }: Props) {
             return response.json();
         })
         .then(data => {
-            console.log(data); // Tässä on vastauksen data, jonka Fastify-palvelin lähetti
-            console.dir(data); 
-            console.log('Vastaanotettu data:', JSON.stringify(data, null, 2));
+            console.log(data)
+            if(data.hedgehog){
+                HedgeHogList();
+            }
         })
         .catch (error => console.error(error));
-        
     };
-
-    // const addHedgehod = async (e) => {
-    //     e.preventDefault();
-    //     const formdata = new FormData(e.currentTarget);
-    
-    //     // Muodosta kyselyparametrit suoraan FormData-oliosta
-    //     const queryParams = new URLSearchParams();
-    //     for (const [key, value] of formdata) {
-    //         queryParams.append(key, value);
-    //     }
-    
-    //     fetch(`/add_hedgehog?${queryParams.toString()}`, {
-    //         method: 'GET',
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         }
-    //     })
-    //     .then(response => {
-    //         console.log(response);
-    //     }).catch (error => console.error(error));
-    // };
 
     return (
         <Paper elevation={3} style={{ padding: '20px' }}>
