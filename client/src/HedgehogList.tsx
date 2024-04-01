@@ -3,18 +3,22 @@ import { Hedgehog } from "@shared/hedgehog";
 import { useEffect, useState } from "react";
 
 interface Props {
-    selectedHedgehogId: number | null,
-    setSelectedHedgehogId: React.Dispatch<React.SetStateAction<number | null>>
+    setSelectedHedgehogId: useState<number | null>
 }
 
-export default function HedgeHogList({ selectedHedgehogId, setSelectedHedgehogId }: Props) {
+export default function HedgeHogList({setSelectedHedgehogId}:Props) {
   const [hedgehogs, setHedgehogs] = useState<Hedgehog[]>([]);
+
+//   const apuClick = (id:number) => {
+//     console.log("Asetetaan valituksi id:", id); 
+//     setSelectedHedgehogId(id);
+//     };
+
   // Fetch all hedgehog's during startup
   useEffect(() => {
     const getAllHedgehogs = async () => {
       try {
         const res = await fetch("/api/v1/hedgehog");
-        console.log(res);
         if (!res.ok) return;
         const json = await res.json();
         setHedgehogs(json?.hedgehogs || []);
@@ -45,9 +49,9 @@ export default function HedgeHogList({ selectedHedgehogId, setSelectedHedgehogId
       {hedgehogs.length ? (
         <List sx={{ overflowY: "scroll", height: "100%" }}>
           {hedgehogs.map((hedgehog, index: number) => (
-            <ListItem key={`hedgehog-index-${index}`} sx={{ width: "100%" }}>
-                <Button onClick={() => (selectedHedgehogId) => setSelectedHedgehogId(hedgehog.id) } type="button" sx={{ width: "100%", padding: "20px", bgcolor: "#4db1a0", color: "white" }}>
-                    {hedgehog.hedgehog_name}
+            <ListItem key={`hedgehog-index-${hedgehog.id}`} sx={{ width: "100%" }}>
+                <Button onClick={() => setSelectedHedgehogId(hedgehog.id) } type="button" sx={{ width: "100%", padding: "20px", bgcolor: "#4db1a0", color: "white" }}>
+                    {hedgehog.hedgehog_name}, {hedgehog.id}
                 </Button>
             </ListItem>
           ))}
@@ -59,3 +63,4 @@ export default function HedgeHogList({ selectedHedgehogId, setSelectedHedgehogId
     </Paper>
   );
 }
+

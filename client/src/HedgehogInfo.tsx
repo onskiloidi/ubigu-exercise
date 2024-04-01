@@ -3,22 +3,20 @@ import { useEffect, useState } from "react";
 import { Hedgehog } from "@shared/hedgehog";
 
 interface Props {
-    selectedHedgehogId: number | null;
+    hedgehogId: number | null;
 }
 
-export const HedgehogInfo: React.FC<Props> = ({ selectedHedgehogId }) => {
-    const [hedgehog, setHedgehogData] = useState(null);
-
+export function HedgehogInfo({ hedgehogId }: Props) {
+    const [hedgehog, setHedgehog] = useState<Hedgehog | null>(null);
+    console.log(hedgehogId);
     useEffect(() => {
-        if (selectedHedgehogId !== null) {
-            // Tässä voisi olla funktio, joka hakee tietyllä ID:llä varustetun siilin tiedot
-            // Esimerkki:
+        if (hedgehogId != null) {
             const fetchHedgehogData = async () => {
                 try {
                     const response = await fetch('/api/v1/hedgehog/fetch_hedgehog', {
                         method: 'POST',
                         headers: {'Content-Type' : 'application/json'},
-                        body: JSON.stringify({'id' : selectedHedgehogId})
+                        body: JSON.stringify({'id' : hedgehogId})
                     })
                     .then(response => {
                         if (!response.ok) {
@@ -27,11 +25,11 @@ export const HedgehogInfo: React.FC<Props> = ({ selectedHedgehogId }) => {
                         return response.json();
                     })
                     .then(data => {
+                        console.log(data);
                         if(data.hedgehog){
-                            setHedgehogData(data.hedgehog || null);
+                            setHedgehog(data.hedgehog || null);
                         }
-                    })
-                    .catch (error => console.error(error));
+                    });
                 } catch (error) {
                     console.error('Failed to fetch hedgehog data:', error);
                 }
@@ -39,17 +37,10 @@ export const HedgehogInfo: React.FC<Props> = ({ selectedHedgehogId }) => {
 
             fetchHedgehogData();
         }
-    }, [selectedHedgehogId]); // Riippuvuuslista, jossa on `hedgehogId`. Tämä tarkoittaa, että useEffect suoritetaan uudelleen, kun `hedgehogId` muuttuu.
+    }, [hedgehog]);
 
-    // Renderöi komponentti tässä käyttäen `hedgehogData`
     return (
-        <div>
-            {hedgehog
-            ? ( {selectedHedgehogId} )
-            :
-            ('')
-            }
-        </div>
+            <Typography sx={{ padding: "1em" }}>{hedgehog?.id}</Typography>
     );
 };
 

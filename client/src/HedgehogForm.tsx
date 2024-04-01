@@ -30,7 +30,7 @@ export function HedgehogForm({ coordinates }: Props) {
         .then(data => {
             console.log(data)
             if(data.hedgehog){
-                HedgeHogList();
+                // HedgeHogList();
             }
         })
         .catch (error => console.error(error));
