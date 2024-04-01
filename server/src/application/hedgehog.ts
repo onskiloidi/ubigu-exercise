@@ -16,17 +16,17 @@ export async function getAllHedgehogs() {
 }
 
 // Yksittäisen siilin hakeminen tietokannasta ID:llä
-// export async function getHedgehogByID(hedgehog_id: number) {
-//     try {
-//       const hedgehog = await getPool().one(
-//         sql.type(hedgehogSchema)`SELECT * FROM hedgehog WHERE id = ${hedgehog_id}`
-//       );
+export async function getHedgehogByID(id: number) {
+    try {
+      const hedgehog = await getPool().one(
+        sql.type(hedgehogSchema)`SELECT * FROM hedgehog WHERE id = ${id}`
+      );
   
-//       return hedgehog;
-//     } catch (error) {
-//       logger.error(error);
-//     }
-//   }
+      return hedgehog;
+    } catch (error) {
+      logger.error(error);
+    }
+  }
 
 // Yksittäisen siilin lisäämisen sovelluslogiikka
   export async function addHedgehog(hedgehog_name: string, hedgehog_gender: string, hedgehog_cakeday: string | null) {

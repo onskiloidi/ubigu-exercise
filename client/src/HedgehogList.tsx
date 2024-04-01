@@ -57,12 +57,12 @@ export default function HedgeHogList() {
   );
 }
 
-function hogOnMap(hedgehog_id: number) {
-    console.log(JSON.stringify({'hedgehog_id' : hedgehog_id}));
+function hogOnMap(id: number) {
+    console.log(JSON.stringify({'id' : id}));
     fetch('/api/v1/hedgehog/fetch_hedgehog', {
         method: 'POST',
         headers: {'Content-Type' : 'application/json'},
-        body: JSON.stringify({'hedgehog_id' : hedgehog_id})
+        body: JSON.stringify({'id' : id})
     })
     .then(response => {
         if (!response.ok) {
