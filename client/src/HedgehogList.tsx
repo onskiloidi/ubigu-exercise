@@ -2,7 +2,12 @@ import { Box, MenuItem, Paper, Typography, List, ListItem, Button } from "@mui/m
 import { Hedgehog } from "@shared/hedgehog";
 import { useEffect, useState } from "react";
 
-export default function HedgeHogList() {
+interface Props {
+    selectedHedgehogId: number | null,
+    setSelectedHedgehogId: React.Dispatch<React.SetStateAction<number | null>>
+}
+
+export default function HedgeHogList({ selectedHedgehogId, setSelectedHedgehogId }: Props) {
   const [hedgehogs, setHedgehogs] = useState<Hedgehog[]>([]);
   // Fetch all hedgehog's during startup
   useEffect(() => {
@@ -11,9 +16,7 @@ export default function HedgeHogList() {
         const res = await fetch("/api/v1/hedgehog");
         console.log(res);
         if (!res.ok) return;
-
         const json = await res.json();
-        console.log(json?.hedgehogs);
         setHedgehogs(json?.hedgehogs || []);
       } catch (err) {
         console.error(`Error while fetching hedgehogs: ${err}`);
@@ -43,7 +46,7 @@ export default function HedgeHogList() {
         <List sx={{ overflowY: "scroll", height: "100%" }}>
           {hedgehogs.map((hedgehog, index: number) => (
             <ListItem key={`hedgehog-index-${index}`} sx={{ width: "100%" }}>
-                <Button onClick={() => hogOnMap(hedgehog.id)} type="button" sx={{ width: "100%", padding: "20px", bgcolor: "#4db1a0", color: "white" }}>
+                <Button onClick={() => (selectedHedgehogId) => setSelectedHedgehogId(hedgehog.id) } type="button" sx={{ width: "100%", padding: "20px", bgcolor: "#4db1a0", color: "white" }}>
                     {hedgehog.hedgehog_name}
                 </Button>
             </ListItem>
@@ -56,25 +59,3 @@ export default function HedgeHogList() {
     </Paper>
   );
 }
-
-function hogOnMap(id: number) {
-    console.log(JSON.stringify({'id' : id}));
-    fetch('/api/v1/hedgehog/fetch_hedgehog', {
-        method: 'POST',
-        headers: {'Content-Type' : 'application/json'},
-        body: JSON.stringify({'id' : id})
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Epäonnistui :(');
-        }
-        return response.json();
-    })
-    .then(data => {
-        console.log(data)
-        if(data.hedgehog){
-            HedgeHogList();
-        }
-    })
-    .catch (error => console.error(error));
-};
