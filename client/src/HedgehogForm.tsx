@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Paper, Typography, Button, TextField, FormControl, FormLabel, RadioGroup,FormControlLabel, Radio} from '@mui/material';
+import { Paper, Typography, Button, TextField, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from '@mui/material';
 import HedgeHogList from './HedgehogList';
 
 interface Props {
@@ -53,9 +53,13 @@ export function HedgehogForm({ coordinates }: Props) {
             </FormControl>
             </div>
             <div>
-                <TextField label="Siilin syntymäaika" variant="outlined" margin="normal" fullWidth name="hedgehog_cakeday" />
+            <FormControl fullWidth>
+                <FormLabel id="siiliGender">Siilin syntymäpäivä</FormLabel>
+                <input type="date" name="hedgehog_cakeday"
+                style={{height: "1.4375em", width: "96%", borderWidth: "2px", borderRadius: "4px", borderStyle: "inset", padding: "16.5px 14px", borderColor: "light-dark(rgb(118, 118, 118), rgb(133, 133, 133))"}}/>
+            </FormControl>
             </div>
-            <Button type="submit">Tallenna siili</Button>
+            <Button type="submit" sx={{ marginTop: "1em"}} color="primary">Tallenna siili</Button>
         </form>
         </Paper>
     );

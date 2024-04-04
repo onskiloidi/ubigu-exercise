@@ -9,11 +9,6 @@ interface Props {
 export default function HedgeHogList({setSelectedHedgehogId}:Props) {
   const [hedgehogs, setHedgehogs] = useState<Hedgehog[]>([]);
 
-//   const apuClick = (id:number) => {
-//     console.log("Asetetaan valituksi id:", id); 
-//     setSelectedHedgehogId(id);
-//     };
-
   // Fetch all hedgehog's during startup
   useEffect(() => {
     const getAllHedgehogs = async () => {
@@ -51,7 +46,7 @@ export default function HedgeHogList({setSelectedHedgehogId}:Props) {
           {hedgehogs.map((hedgehog, index: number) => (
             <ListItem key={`hedgehog-index-${hedgehog.id}`} sx={{ width: "100%" }}>
                 <Button onClick={() => setSelectedHedgehogId(hedgehog.id) } type="button" sx={{ width: "100%", padding: "20px", bgcolor: "#4db1a0", color: "white" }}>
-                    {hedgehog.hedgehog_name}, {hedgehog.id}
+                    {hedgehog.hedgehog_name}
                 </Button>
             </ListItem>
           ))}
