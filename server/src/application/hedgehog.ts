@@ -6,7 +6,7 @@ import { sql } from "slonik";
 export async function getAllHedgehogs() {
   try {
     const hedgehogs = await getPool().any(
-      sql.type(hedgehogSchema)`SELECT id, hedgehog_name, hedgehog_gender, hedgehog_cakeday, ST_AsText(hedgehog_location) as hedgehog_lng_lat FROM hedgehog;`
+      sql.type(hedgehogSchema)`SELECT id, hedgehog_name, hedgehog_gender, hedgehog_cakeday, ST_AsGeoJSON(hedgehog_location) as hedgehog_lng_lat FROM hedgehog ORDER BY hedgehog_name ASC;`
     );
 
     return hedgehogs;
@@ -19,7 +19,7 @@ export async function getAllHedgehogs() {
 export async function getHedgehogByID(id: number) {
     try {
       const hedgehog = await getPool().one(
-        sql.type(hedgehogSchema)`SELECT id, hedgehog_name, hedgehog_gender, hedgehog_cakeday, ST_AsText(hedgehog_location) as hedgehog_lng_lat FROM hedgehog FROM hedgehog WHERE id = ${id}`
+        sql.type(hedgehogSchema)`SELECT id, hedgehog_name, hedgehog_gender, hedgehog_cakeday, ST_AsGeoJSON(hedgehog_location) as hedgehog_lng_lat FROM hedgehog WHERE id = ${id}`
       );
   
       return hedgehog;

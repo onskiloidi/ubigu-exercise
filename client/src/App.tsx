@@ -49,27 +49,27 @@ export function App() {
       >
         <HedgeHogList setSelectedHedgehogId={setSelectedHedgehogId}/>
         <Box>
-          <HedgehogInfo hedgehogId={selectedHedgehogId} />
+          <HedgehogInfo hedgehogId={selectedHedgehogId || null} features={[]}/>
           <HedgehogForm coordinates={coordinates || []} />
         </Box>
         <Paper elevation={3} sx={{ margin: "1em" }}>
           <Map
             onMapClick={(coordinates) => setCoordinates(coordinates)}
             // Esimerkki siitä, miten kartalle voidaan välittää siilien koordinaatteja GeoJSON -arrayssä
-            features={[
-              {
-                type: "Feature",
-                geometry: {
-                  type: "Point",
-                  coordinates: [2859167.020281517, 9632038.56757201],
-                },
-                properties: {
-                  name: "Siili Silvennoinen",
-                  age: 50,
-                  gender: "male",
-                },
-              },
-            ]}
+            // features={[
+            //   {
+            //     type: "Feature",
+            //     geometry: {
+            //       type: "Point",
+            //       coordinates: [2859167.020281517, 9632038.56757201],
+            //     },
+            //     properties: {
+            //       name: "Siili Silvennoinen",
+            //       age: 50,
+            //       gender: "male",
+            //     },
+            //   },
+            // ]}
           />
         </Paper>
       </Box>

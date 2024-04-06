@@ -66,13 +66,13 @@ export function Map({ children, onMapClick, features }: Props) {
     olMap.setTarget(mapRef.current as HTMLElement);
 
     olMap.on("click", (event) => {
-        console.log(event);
         onMapClick(event.coordinate);
     });
   }, [olMap]);
 
   /** Listen for changes in the 'features' property */
   useEffect(() => {
+    console.log(features);
     if (!features || !features.length) return;
     const layers = olMap.getLayers().getArray();
 

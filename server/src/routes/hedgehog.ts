@@ -32,9 +32,9 @@ export function hedgehogRouter(
         if(hedgehog_name.trim() == ''){
             return reply.send({ 'status' : 0, 'message' : 'Siilin nimi on pakollinen tieto' });
         }
-        // if(hedgehog_lng_lat.trim() == ''){
-        //     return reply.send({ 'status' : 0, 'message' : 'Siilin sijainti on pakollinen tieto' });
-        // }
+        if(hedgehog_lng_lat.trim() == ''){
+            return reply.send({ 'status' : 0, 'message' : 'Siilin sijainti on pakollinen tieto' });
+        }
         const hedgehog = await addHedgehog(hedgehog_name, hedgehog_gender, hedgehog_cakeday, hedgehog_lng_lat);
         // if(hedgehog.id){
             return reply.code(201).send({ 'status' : 1, 'message' : 'Uusi siili tallennettu!', 'hedgehog' : hedgehog });

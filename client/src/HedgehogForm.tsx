@@ -30,7 +30,8 @@ export function HedgehogForm({ coordinates }: Props) {
         .then(data => {
             console.log(data)
             if(data.hedgehog){
-                // HedgeHogList();
+                HedgeHogList(data.hedgehog.id);
+                document.getElementById('hedgehogForm').reset();
             }
         })
         .catch (error => console.error(error));
@@ -39,7 +40,7 @@ export function HedgehogForm({ coordinates }: Props) {
     return (
         <Paper elevation={3} style={{ padding: '20px' }}>
         <Typography variant="h4">Lisää uusi siili</Typography>
-        <form onSubmit={addHedgehod}>
+        <form id="hedgehogForm" onSubmit={addHedgehod}>
             <div>
                 <TextField label="Siilin nimi" variant="outlined" margin="normal" fullWidth name="hedgehog_name" />
             </div>
