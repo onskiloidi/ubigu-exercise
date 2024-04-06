@@ -6,6 +6,11 @@ interface Props {
     hedgehogId: number | null;
 }
 
+function formatBirthDate(cakeday: string): string {
+    const [year, month, day] = cakeday.split("-");
+    return `${day}.${month}.${year}`;
+  }
+
 export function HedgehogInfo({ hedgehogId }: Props) {
     const [hedgehog, setHedgehog] = useState<Hedgehog>(null);
     console.log(hedgehogId);
@@ -39,14 +44,10 @@ export function HedgehogInfo({ hedgehogId }: Props) {
         console.log(hedgehog);
         return (
             <Paper elevation={3} style={{ padding: '20px', margin: '20px 0px' }}>
-                <Typography>
                     <div>Siilin nimi: {hedgehog.hedgehog_name}</div>
                     <div>Siilin sukupuoli:  {(hedgehog.hedgehog_gender == 'M' ? 'Uros' : 'Naaras')}</div>
-
-                </Typography>
-                
+                    <div>Siilin syntymäpäivä:  {hedgehog.hedgehog_cakeday ? formatBirthDate(hedgehog.hedgehog_cakeday) : '-'}</div>
             </Paper>
-
         );
     }
     return (
