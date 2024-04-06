@@ -7,7 +7,7 @@ interface Props {
 }
 
 export function HedgehogForm({ coordinates }: Props) {
-    // console.log(coordinates)
+    console.log(coordinates)
     const addHedgehod = async (e) => {
         e.preventDefault();
         const formdata = new FormData(e.currentTarget);
@@ -58,6 +58,9 @@ export function HedgehogForm({ coordinates }: Props) {
                 <input type="date" name="hedgehog_cakeday"
                 style={{height: "1.4375em", width: "96%", borderWidth: "2px", borderRadius: "4px", borderStyle: "inset", padding: "16.5px 14px", borderColor: "light-dark(rgb(118, 118, 118), rgb(133, 133, 133))"}}/>
             </FormControl>
+            </div>
+            <div>
+                <TextField label="Siilin koordinaatit" variant="outlined" margin="normal" fullWidth name="hedgehog_lng_lat" value={coordinates.join(' ')} readOnly helperText="Klikkaa karttaa valitaksesi siilin sijannin"/>
             </div>
             <Button type="submit" sx={{ marginTop: "1em"}} color="primary">Tallenna siili</Button>
         </form>

@@ -6,6 +6,7 @@ interface HedgehogRequest {
     hedgehog_name: string;
     hedgehog_gender: string;
     hedgehog_cakeday: string;
+    hedgehog_lng_lat: string;
 }
 
 interface HedgehogIDRequest {
@@ -25,14 +26,21 @@ export function hedgehogRouter(
     });
 
     fastify.post<{ Body: HedgehogRequest }>('/add_hedgehog', async (_request, reply) => {
-        let { hedgehog_name, hedgehog_gender, hedgehog_cakeday } = _request.body;
-        // let status = {hedgehog_name, hedgehog_gender, hedgehog_cakeday};
+        let { hedgehog_name, hedgehog_gender, hedgehog_cakeday, hedgehog_lng_lat } = _request.body;
+        // let status = {hedgehog_name, hedgehog_gender, hedgehog_cakeday, hedgehog_lng_lat};
         // return reply.send({ status });
         if(hedgehog_name.trim() == ''){
             return reply.send({ 'status' : 0, 'message' : 'Siilin nimi on pakollinen tieto' });
         }
-        const hedgehog = await addHedgehog(hedgehog_name, hedgehog_gender, hedgehog_cakeday);
-        return reply.code(201).send({ 'status' : 1, 'message' : 'Uusi siili tallennettu!', 'hedgehog' : hedgehog });
+        // if(hedgehog_lng_lat.trim() == ''){
+        //     return reply.send({ 'status' : 0, 'message' : 'Siilin sijainti on pakollinen tieto' });
+        // }
+        const hedgehog = await addHedgehog(hedgehog_name, hedgehog_gender, hedgehog_cakeday, hedgehog_lng_lat);
+        // if(hedgehog.id){
+            return reply.code(201).send({ 'status' : 1, 'message' : 'Uusi siili tallennettu!', 'hedgehog' : hedgehog });
+        // }else{
+        //     return reply.code(200).send({ 'status' : 0, 'message' : 'Siiliä ei voitu tallentaa', 'hedgehog' : null });
+        // }
     });
 
     // Yksittäisen siilin hakeminen tietokannasta ID:llä

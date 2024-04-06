@@ -66,7 +66,8 @@ export function Map({ children, onMapClick, features }: Props) {
     olMap.setTarget(mapRef.current as HTMLElement);
 
     olMap.on("click", (event) => {
-      onMapClick(event.coordinate);
+        console.log(event);
+        onMapClick(event.coordinate);
     });
   }, [olMap]);
 
