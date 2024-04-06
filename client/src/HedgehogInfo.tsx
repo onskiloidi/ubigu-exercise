@@ -13,49 +13,47 @@ export function HedgehogInfo({ hedgehogId }: Props) {
         if (hedgehogId != null) {
             console.log(hedgehogId);
             const fetchHedgehogData = async () => {
-                    await fetch('/api/v1/hedgehog/fetch_hedgehog', {
+                try {
+                    const response = await fetch('/api/v1/hedgehog/fetch_hedgehog', {
                         method: 'POST',
-                        headers: {'Content-Type' : 'application/json'},
-                        body: JSON.stringify({'id' : hedgehogId})
-                    })
-                    .then(response => {
-                        console.log(response);
-                        if (!response.ok) {
-                            throw new Error('Epäonnistui :(');
-                        }
-                        return response.json();
-                    })
-                    .then(hedgehog_data => {
-                        console.log(hedgehog_data);
-                        setHedgehog(hedgehog);
-                    })
-                    .catch (error => console.error(error));
-                
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ 'id': hedgehogId })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Epäonnistui :(');
+                    }
+
+                    const json = await response.json();
+                    setHedgehog(json?.hedgehog || null);
+                } catch (error) {
+                    console.error(error);
+                }
             };
 
             fetchHedgehogData();
         }
-    }, []);
+    }, [hedgehogId]);
 
-    if(hedgehog != null){
+    if(hedgehog){
+        console.log(hedgehog);
         return (
-            <Paper>
-                <Box>
-                    <Typography>
-                        {hedgehog.hedgehog_name}
-                    </Typography>
-                </Box>
+            <Paper elevation={3} style={{ padding: '20px', margin: '20px 0px' }}>
+                <Typography>
+                    <div>Siilin nimi: {hedgehog.hedgehog_name}</div>
+                    <div>Siilin sukupuoli:  {(hedgehog.hedgehog_gender == 'M' ? 'Uros' : 'Naaras')}</div>
+
+                </Typography>
+                
             </Paper>
 
         );
     }
     return (
-        <Paper>
-                <Box>
-                    <Typography>
-                        Ei valittua siiliä
-                    </Typography>
-                </Box>
-            </Paper>
+        <Paper elevation={3} style={{ padding: '20px', margin: '20px 0px' }}>
+            <Typography>
+                Ei tarkasteluun valittua siiliä
+            </Typography>
+        </Paper>
         );
 };
