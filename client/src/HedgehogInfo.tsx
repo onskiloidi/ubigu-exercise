@@ -66,7 +66,7 @@ export function HedgehogInfo({ hedgehogId, setFeatures }: Props) {
                                 type: "Feature",
                                 geometry: {
                                     type: "Point",
-                                    coordinates: json.hedgehog.hedgehog_coords.split(','),
+                                    coordinates: json.hedgehog.hedgehog_coords.split(','), // pieni huijaus sijainnin näyttämiseksi
                                 },
                                 properties: {
                                     name: json.hedgehog.hedgehog_name,
