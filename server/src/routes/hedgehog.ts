@@ -7,6 +7,7 @@ interface HedgehogRequest {
     hedgehog_gender: string;
     hedgehog_cakeday: string;
     hedgehog_lng_lat: string;
+    hedgehog_coords: string;
 }
 
 interface HedgehogIDRequest {

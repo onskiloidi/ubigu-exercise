@@ -61,7 +61,7 @@ export function HedgehogForm({coordinates, onAddHedgehog }: Props) {
             </FormControl>
             </div>
             <div>
-                <TextField label="Siilin koordinaatit" variant="outlined" margin="normal" fullWidth name="hedgehog_lng_lat" value={coordinates.join(' ')} readOnly helperText="Klikkaa karttaa valitaksesi siilin sijannin"/>
+                <TextField label="Siilin koordinaatit" variant="outlined" margin="normal" fullWidth name="hedgehog_lng_lat" value={coordinates} readOnly helperText="Klikkaa karttaa valitaksesi siilin sijannin"/>
             </div>
             <Button type="submit" sx={{ marginTop: "1em"}} color="primary">Tallenna siili</Button>
         </form>

@@ -53,18 +53,20 @@ export function HedgehogInfo({ hedgehogId, setFeatures }: Props) {
                     const json = await response.json();
                     setHedgehog(json?.hedgehog || null);
                     console.log(json);
-                    if(json?.hedgehog.hedgehog_lng_lat){
-                        let coords = JSON.parse(json.hedgehog.hedgehog_lng_lat);
-                        console.log( coords.coordinates);
+                    console.log(json.hedgehog.hedgehog_coords);
+                    if(json?.hedgehog.hedgehog_coords){
+                        // Tässäpä vasta näin sunnuntaina klo 22.00 tajusin, että koordinaattien formaatit eivät täsmää :c
+                        // let coords = JSON.parse(json.hedgehog.hedgehog_lng_lat);
+                        // console.log( coords.coordinates);
                         // const [lat, lng] = coords.coordinates;
-                        const [lng, lat] = fromLonLat(coords.coordinates);
-                        console.log(lng, lat);
+                        // const [lng, lat] = fromLonLat(coords.coordinates);
+                        // console.log(lng, lat);
                         setFeatures([
                             {
                                 type: "Feature",
                                 geometry: {
                                     type: "Point",
-                                    coordinates: [lng, lat],
+                                    coordinates: json.hedgehog.hedgehog_coords.split(','),
                                 },
                                 properties: {
                                     name: json.hedgehog.hedgehog_name,
@@ -74,6 +76,7 @@ export function HedgehogInfo({ hedgehogId, setFeatures }: Props) {
                             },
                         ]);
 
+                        // Tämä toimii ja piirtää palleron kartalle
                         // setFeatures([
                         //     {
                         //       type: "Feature",

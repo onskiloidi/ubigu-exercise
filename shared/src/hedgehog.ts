@@ -9,7 +9,8 @@ export const hedgehogSchema = z.object({
   hedgehog_name: z.string(),
   hedgehog_cakeday: z.date().nullable(),
   hedgehog_gender: z.string(),
-  hedgehog_lng_lat: z.string()
+  hedgehog_lng_lat: z.string(),
+  hedgehog_coords: z.string()
 });
 
 export type Hedgehog = z.infer<typeof hedgehogSchema>;
