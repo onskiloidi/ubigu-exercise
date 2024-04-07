@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { Paper, Typography, Button, TextField, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from '@mui/material';
-import HedgeHogList from './HedgehogList';
+import { Hedgehog } from "@shared/hedgehog";
 
 interface Props {
   coordinates: number[];
+  setSelectedHedgehogId: useState<number | null>;
+  onAddHedgehog: (new_hedgehog: Hedgehog) => void;
 }
 
-export function HedgehogForm({ coordinates }: Props) {
+export function HedgehogForm({coordinates, setSelectedHedgehogId, onAddHedgehog }: Props) {
     console.log(coordinates)
     const addHedgehod = async (e) => {
         e.preventDefault();
@@ -30,7 +32,8 @@ export function HedgehogForm({ coordinates }: Props) {
         .then(data => {
             console.log(data)
             if(data.hedgehog){
-                HedgeHogList(data.hedgehog.id);
+                setSelectedHedgehogId(data.hedgehog.id);
+                onAddHedgehog(data.hedgehog);
                 document.getElementById('hedgehogForm').reset();
             }
         })

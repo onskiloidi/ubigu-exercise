@@ -5,6 +5,8 @@ import { Map } from "./Map";
 import { Box, Paper, Typography } from "@mui/material";
 import { useState } from "react";
 
+import { Hedgehog } from "@shared/hedgehog";
+
 export function App() {
   // Latest coordinates from the Map click event
   const [coordinates, setCoordinates] = useState<number[]>();
@@ -12,6 +14,10 @@ export function App() {
   const [selectedHedgehogId, setSelectedHedgehogId] = useState<number | null>(
     null
   );
+  const [hedgehogs, setHedgehogs] = useState<Hedgehog[]>([]);
+  const addHedgehog = (new_hedgehog:Hedgehog) => {
+    setHedgehogs([hedgehogs, new_hedgehog]);
+  };
 
   return (
     <Box
@@ -47,10 +53,10 @@ export function App() {
           overflow: "hidden",
         }}
       >
-        <HedgeHogList setSelectedHedgehogId={setSelectedHedgehogId}/>
+        <HedgeHogList setSelectedHedgehogId={setSelectedHedgehogId} hedgehogs={hedgehogs}/>
         <Box>
-          <HedgehogInfo hedgehogId={selectedHedgehogId || null} features={[]}/>
-          <HedgehogForm coordinates={coordinates || []} />
+          <HedgehogInfo hedgehogId={selectedHedgehogId || null} features={[]} />
+          <HedgehogForm coordinates={coordinates || []} setSelectedHedgehogId={setSelectedHedgehogId} onAddHedgehog={addHedgehog}/>
         </Box>
         <Paper elevation={3} sx={{ margin: "1em" }}>
           <Map

@@ -23,7 +23,7 @@ export default function HedgeHogList({setSelectedHedgehogId}:Props) {
     };
 
     getAllHedgehogs();
-  }, []);
+  }, [hedgehogs]);
 
   return (
     <Paper elevation={3} sx={{ margin: "1em", overflow: "hidden" }}>
