@@ -17,10 +17,8 @@ export function App() {
   const [features, setFeatures] = useState<GeoJSON.Feature[]>([]);
 
   const addHedgehog = (new_hedgehog:Hedgehog) => {
-    console.log('vanha array', hedgehogs);
     console.log('lisää uusi siili', new_hedgehog);
     setHedgehogs(hedgehogs => [new_hedgehog, ...hedgehogs]);
-    console.log('uusi array', hedgehogs);
   };
 
   return (
@@ -59,7 +57,7 @@ export function App() {
       >
         <HedgeHogList setSelectedHedgehogId={setSelectedHedgehogId} hedgehogs={hedgehogs || []} setHedgehogs={setHedgehogs} />
         <Box>
-          <HedgehogInfo hedgehogId={selectedHedgehogId || null} features={features || []} setFeatures={setFeatures} />
+          <HedgehogInfo hedgehogId={selectedHedgehogId || null} setFeatures={setFeatures} />
           <HedgehogForm coordinates={coordinates || []} onAddHedgehog={addHedgehog} />
         </Box>
         <Paper elevation={3} sx={{ margin: "1em" }}>

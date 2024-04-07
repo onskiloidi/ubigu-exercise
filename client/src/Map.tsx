@@ -72,10 +72,10 @@ export function Map({ children, onMapClick, features }: Props) {
 
   /** Listen for changes in the 'features' property */
   useEffect(() => {
-    console.log(features);
+    console.log('features', features);
     if (!features || !features.length) return;
     const layers = olMap.getLayers().getArray();
-
+    console.log(layers);
     const source = (layers[1] as VectorLayer<VectorSource>).getSource();
     const olFeatures = features.map(
       (geometry) =>

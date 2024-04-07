@@ -30,11 +30,12 @@ export async function getHedgehogByID(id: number) {
 
 // Yksittäisen siilin lisäämisen sovelluslogiikka
   export async function addHedgehog(hedgehog_name: string, hedgehog_gender: string, hedgehog_cakeday: string | null, hedgehog_location: string) {
-    hedgehog_location = `POINT(${hedgehog_location})`;
+    // const [lng, lat] = hedgehog_location.split(' ');
+    let hedgehog_point = `POINT(${hedgehog_location})`;
     try {
         const hedgehog = await getPool().one(
             sql.type(hedgehogSchema)`INSERT INTO hedgehog(hedgehog_name, hedgehog_gender, hedgehog_cakeday, hedgehog_location)
-            VALUES (${hedgehog_name}, ${hedgehog_gender}, ${hedgehog_cakeday}, ST_GeogFromText(${hedgehog_location})) RETURNING *;`
+            VALUES (${hedgehog_name}, ${hedgehog_gender}, ${hedgehog_cakeday}, ST_GeogFromText(${hedgehog_point})) RETURNING *;`
         );
   
         return hedgehog;

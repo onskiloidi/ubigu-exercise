@@ -3,14 +3,13 @@ import { Hedgehog } from "@shared/hedgehog";
 import { useEffect, useState } from "react";
 
 interface Props {
-    setSelectedHedgehogId: (id: number | null) => void;
+    setSelectedHedgehogId: useState<number>;
     hedgehogs: Hedgehog[];
     setHedgehogs: useState<Hedgehog[]>;
 }
 
 export default function HedgeHogList({setSelectedHedgehogId, hedgehogs, setHedgehogs}:Props) {
     // const [hedgehogs, setHedgehogs] = useState<Hedgehog[]>([]);
-    console.log('ladataan siilit');
     // Fetch all hedgehog's during startup
     useEffect(() => {
         const getAllHedgehogs = async () => {
@@ -30,6 +29,10 @@ export default function HedgeHogList({setSelectedHedgehogId, hedgehogs, setHedge
         console.log('siilejä lisätty, päivitetään', hedgehogs);
     }, [hedgehogs]);
     
+    function handleClick(h_id:number) {
+        setSelectedHedgehogId(h_id)
+    };
+
     return (
         <Paper elevation={3} sx={{ margin: "1em", overflow: "hidden" }}>
             <Box
@@ -47,17 +50,17 @@ export default function HedgeHogList({setSelectedHedgehogId, hedgehogs, setHedge
                 </Typography>
                 </Box>
                 {hedgehogs.length ? (
-                <List sx={{ overflowY: 'scroll', height: '100%', paddingBottom: '40px' }}>
-                    {hedgehogs.map((hedgehog:Hedgehog, index: number) => (
-                    <ListItem key={`hedgehog-index-${hedgehog.id}`} sx={{ width: '100%' }}>
-                        <Button onClick={() => setSelectedHedgehogId(hedgehog.id) } type="button" sx={{ width: '100%', padding: '20px', bgcolor: '#4db1a0', color: 'white' }}>
-                            {hedgehog.hedgehog_name}
-                        </Button>
-                    </ListItem>
-                    ))}
-                </List>
+                    <List sx={{ overflowY: 'scroll', height: '100%', paddingBottom: '40px' }}>
+                        {hedgehogs.map((hedgehog:Hedgehog, index: number) => (
+                        <ListItem key={`hedgehog-index-${hedgehog.id}`} sx={{ width: '100%' }}>
+                            <Button onClick={() => handleClick(hedgehog.id)} type="button" sx={{ width: '100%', padding: '20px', bgcolor: '#4db1a0', color: 'white' }}>
+                                {hedgehog.hedgehog_name}
+                            </Button>
+                        </ListItem>
+                        ))}
+                    </List>
                 ) : (
-                <Typography sx={{ padding: "1em" }}>Ei lisättyjä siilejä</Typography>
+                    <Typography sx={{ padding: "1em" }}>Ei lisättyjä siilejä</Typography>
                 )}
         </Paper>
     );

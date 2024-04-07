@@ -2,10 +2,11 @@ import { Paper, Typography, Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import { GeoJSON } from "ol/format";
 import { Hedgehog } from "@shared/hedgehog";
+import { fromLonLat } from 'ol/proj';
 
 interface Props {
     hedgehogId: number | null;
-    features: GeoJSON.Feature[];
+    // features: GeoJSON.Feature[];
     setFeatures: useState<GeoJSON.Feature | null>;
 }
 
@@ -33,7 +34,7 @@ function calculateAge(cakeday: string) {
     return `${(years < 0 ? 0 : years)} vuotta, ${months} kuukautta`;
   }
 
-export function HedgehogInfo({ hedgehogId, features, setFeatures }: Props) {
+export function HedgehogInfo({ hedgehogId, setFeatures }: Props) {
     const [hedgehog, setHedgehog] = useState<Hedgehog>(null);
     useEffect(() => {
         if (hedgehogId != null) {
@@ -51,6 +52,44 @@ export function HedgehogInfo({ hedgehogId, features, setFeatures }: Props) {
 
                     const json = await response.json();
                     setHedgehog(json?.hedgehog || null);
+                    console.log(json);
+                    if(json?.hedgehog.hedgehog_lng_lat){
+                        let coords = JSON.parse(json.hedgehog.hedgehog_lng_lat);
+                        console.log( coords.coordinates);
+                        // const [lat, lng] = coords.coordinates;
+                        const [lng, lat] = fromLonLat(coords.coordinates);
+                        console.log(lng, lat);
+                        setFeatures([
+                            {
+                                type: "Feature",
+                                geometry: {
+                                    type: "Point",
+                                    coordinates: [lng, lat],
+                                },
+                                properties: {
+                                    name: json.hedgehog.hedgehog_name,
+                                    age: 50,
+                                    gender: json.hedgehog.hedgehog_gender === 'M' ? 'male' : 'female',
+                                },
+                            },
+                        ]);
+
+                        // setFeatures([
+                        //     {
+                        //       type: "Feature",
+                        //       geometry: {
+                        //         type: "Point",
+                        //         coordinates: [2859167.020281517, 9632038.56757201],
+                        //       },
+                        //       properties: {
+                        //         name: "Siili Silvennoinen",
+                        //         age: 50,
+                        //         gender: "male",
+                        //       },
+                        //     },
+                        //   ]);
+                        
+                    }
                 } catch (error) {
                     console.error(error);
                 }
@@ -60,40 +99,13 @@ export function HedgehogInfo({ hedgehogId, features, setFeatures }: Props) {
         }
     }, [hedgehogId]);
 
-    if(hedgehog){
-        console.log(hedgehog);
-        if(hedgehog.hedgehog_lng_lat){
-            let coords = JSON.parse(hedgehog.hedgehog_lng_lat);
-            setFeatures([
-                {
-                  type: 'Feature',
-                  geometry: {
-                    type: coords.type,
-                    coordinates: coords.coordinates,
-                  },
-                  properties: {
-                    name: hedgehog.hedgehog_name,
-                    age: 50,
-                    gender: hedgehog.hedgehog_gender === 'M' ? 'male' : 'female',
-                  },
-                },
-            ]);
-        }
-        
-        return (
-            <Paper elevation={3} style={{ padding: '20px', margin: '20px 0px' }}>
-                <Typography>Valitun siilin tiedot</Typography>
-                <Typography>Siilin nimi: {hedgehog.hedgehog_name}</Typography>
-                <Typography>Siilin sukupuoli:  {(hedgehog.hedgehog_gender == 'M' ? 'Uros' : 'Naaras')}</Typography>
-                <Typography>Siilin syntymäpäivä:  {hedgehog.hedgehog_cakeday != null ? formatCakeDay(hedgehog.hedgehog_cakeday)+'('+calculateAge(hedgehog.hedgehog_cakeday)+')' : '-'}</Typography>
-            </Paper>
-        );
-    }
     return (
-        <Paper elevation={3} style={{ padding: '20px', margin: '20px 0px' }}>
-            <Typography>
-                Ei tarkasteluun valittua siiliä
-            </Typography>
+       <Paper elevation={3} style={{ padding: '20px', margin: '20px 0px' }}>
+            <Typography>Valitun siilin tiedot</Typography>
+            <Typography>Siilin nimi: {hedgehog?.hedgehog_name}</Typography>
+            <Typography>Siilin sukupuoli:  {(hedgehog?.hedgehog_gender == 'M' ? 'Uros' : 'Naaras')}</Typography>
+            <Typography>Siilin syntymäpäivä:  {hedgehog?.hedgehog_cakeday != null ? formatCakeDay(hedgehog?.hedgehog_cakeday)+'('+calculateAge(hedgehog?.hedgehog_cakeday)+')' : '-'}</Typography>
         </Paper>
-        );
+    );
+   
 };
