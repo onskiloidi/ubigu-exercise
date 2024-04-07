@@ -5,6 +5,7 @@ import { Map } from "./Map";
 import { Box, Paper, Typography } from "@mui/material";
 import { useState } from "react";
 
+import { GeoJSON } from "ol/format";
 import { Hedgehog } from "@shared/hedgehog";
 
 export function App() {
@@ -18,6 +19,7 @@ export function App() {
   const addHedgehog = (new_hedgehog:Hedgehog) => {
     setHedgehogs([hedgehogs, new_hedgehog]);
   };
+  const [features, setFeatures] = useState<GeoJSON.Feature[]>([]);
 
   return (
     <Box
@@ -55,12 +57,12 @@ export function App() {
       >
         <HedgeHogList setSelectedHedgehogId={setSelectedHedgehogId} hedgehogs={hedgehogs}/>
         <Box>
-          <HedgehogInfo hedgehogId={selectedHedgehogId || null} features={[]} />
-          <HedgehogForm coordinates={coordinates || []} setSelectedHedgehogId={setSelectedHedgehogId} onAddHedgehog={addHedgehog}/>
+          <HedgehogInfo hedgehogId={selectedHedgehogId || null} features={[]} setFeatures={setFeatures} />
+          <HedgehogForm coordinates={coordinates || []} setSelectedHedgehogId={setSelectedHedgehogId} onAddHedgehog={addHedgehog} />
         </Box>
         <Paper elevation={3} sx={{ margin: "1em" }}>
           <Map
-            onMapClick={(coordinates) => setCoordinates(coordinates)}
+            onMapClick={(coordinates) => setCoordinates(coordinates)} features={features}
             // Esimerkki siitä, miten kartalle voidaan välittää siilien koordinaatteja GeoJSON -arrayssä
             // features={[
             //   {

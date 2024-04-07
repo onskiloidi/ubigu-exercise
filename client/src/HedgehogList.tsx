@@ -42,10 +42,10 @@ export default function HedgeHogList({setSelectedHedgehogId}:Props) {
         </Typography>
       </Box>
       {hedgehogs.length ? (
-        <List sx={{ overflowY: "scroll", height: "100%" }}>
-          {hedgehogs.map((hedgehog, index: number) => (
-            <ListItem key={`hedgehog-index-${hedgehog.id}`} sx={{ width: "100%" }}>
-                <Button onClick={() => setSelectedHedgehogId(hedgehog.id) } type="button" sx={{ width: "100%", padding: "20px", bgcolor: "#4db1a0", color: "white" }}>
+        <List sx={{ overflowY: 'scroll', height: '100%', paddingBottom: '40px' }}>
+          {hedgehogs.map((hedgehog:Hedgehog, index: number) => (
+            <ListItem key={`hedgehog-index-${hedgehog.id}`} sx={{ width: '100%' }}>
+                <Button onClick={() => setSelectedHedgehogId(hedgehog.id) } type="button" sx={{ width: '100%', padding: '20px', bgcolor: '#4db1a0', color: 'white' }}>
                     {hedgehog.hedgehog_name}
                 </Button>
             </ListItem>

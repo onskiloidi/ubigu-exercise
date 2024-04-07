@@ -5,7 +5,8 @@ import { Hedgehog } from "@shared/hedgehog";
 
 interface Props {
     hedgehogId: number | null;
-    features: GeoJSON.Feature[]
+    features: GeoJSON.Feature[];
+    setFeatures: useState<GeoJSON.Feature | null>;
 }
 
 function formatCakeDay(cakeday: string): string {
@@ -32,7 +33,7 @@ function calculateAge(cakeday: string) {
     return `${(years < 0 ? 0 : years)} vuotta, ${months} kuukautta`;
   }
 
-export function HedgehogInfo({ hedgehogId, features }: Props) {
+export function HedgehogInfo({ hedgehogId, features, setFeatures }: Props) {
     const [hedgehog, setHedgehog] = useState<Hedgehog>(null);
     useEffect(() => {
         if (hedgehogId != null) {
@@ -60,21 +61,27 @@ export function HedgehogInfo({ hedgehogId, features }: Props) {
     }, [hedgehogId]);
 
     if(hedgehog){
-        features=[
-              {
-                type: "Feature",
-                geometry: {
-                  type: "Point",
-                  coordinates: [2859167.020281517, 9632038.56757201],
+        console.log(hedgehog);
+        let coords = JSON.parse(hedgehog.hedgehog_lng_lat);
+        console.log(coords);
+        if(hedgehog.hedgehog_lng_lat){
+            features=[
+                {
+                  type: 'Feature',
+                  geometry: {
+                    type: coords.type,
+                    coordinates: coords[coords.coordinates[0], coords.coordinates[1]],
+                  },
+                  properties: {
+                    name: hedgehog.hedgehog_name,
+                    age: 50,
+                    gender: (hedgehog.hedgehog_gender == 'M' ? 'male' : 'female'),
+                  },
                 },
-                properties: {
-                  name: "Siili Silvennoinen",
-                  age: 50,
-                  gender: "male",
-                },
-              },
-            ];
-
+              ];
+              setFeatures(features);
+        }
+        
         return (
             <Paper elevation={3} style={{ padding: '20px', margin: '20px 0px' }}>
                 <Typography>Valitun siilin tiedot</Typography>
