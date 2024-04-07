@@ -12,14 +12,16 @@ export function App() {
   // Latest coordinates from the Map click event
   const [coordinates, setCoordinates] = useState<number[]>();
   // ID of the currently selected hedgehog
-  const [selectedHedgehogId, setSelectedHedgehogId] = useState<number | null>(
-    null
-  );
+  const [selectedHedgehogId, setSelectedHedgehogId] = useState<number | null>(null);
   const [hedgehogs, setHedgehogs] = useState<Hedgehog[]>([]);
-  const addHedgehog = (new_hedgehog:Hedgehog) => {
-    setHedgehogs([hedgehogs, new_hedgehog]);
-  };
   const [features, setFeatures] = useState<GeoJSON.Feature[]>([]);
+
+  const addHedgehog = (new_hedgehog:Hedgehog) => {
+    console.log('vanha array', hedgehogs);
+    console.log('lisää uusi siili', new_hedgehog);
+    setHedgehogs(hedgehogs => [new_hedgehog, ...hedgehogs]);
+    console.log('uusi array', hedgehogs);
+  };
 
   return (
     <Box
@@ -55,10 +57,10 @@ export function App() {
           overflow: "hidden",
         }}
       >
-        <HedgeHogList setSelectedHedgehogId={setSelectedHedgehogId} hedgehogs={hedgehogs}/>
+        <HedgeHogList setSelectedHedgehogId={setSelectedHedgehogId} hedgehogs={hedgehogs || []} setHedgehogs={setHedgehogs} />
         <Box>
-          <HedgehogInfo hedgehogId={selectedHedgehogId || null} features={[]} setFeatures={setFeatures} />
-          <HedgehogForm coordinates={coordinates || []} setSelectedHedgehogId={setSelectedHedgehogId} onAddHedgehog={addHedgehog} />
+          <HedgehogInfo hedgehogId={selectedHedgehogId || null} features={features || []} setFeatures={setFeatures} />
+          <HedgehogForm coordinates={coordinates || []} onAddHedgehog={addHedgehog} />
         </Box>
         <Paper elevation={3} sx={{ margin: "1em" }}>
           <Map

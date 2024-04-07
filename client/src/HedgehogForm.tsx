@@ -4,12 +4,11 @@ import { Hedgehog } from "@shared/hedgehog";
 
 interface Props {
   coordinates: number[];
-  setSelectedHedgehogId: useState<number | null>;
+//   setSelectedHedgehogId: useState<number | null>;
   onAddHedgehog: (new_hedgehog: Hedgehog) => void;
 }
 
-export function HedgehogForm({coordinates, setSelectedHedgehogId, onAddHedgehog }: Props) {
-    console.log(coordinates)
+export function HedgehogForm({coordinates, onAddHedgehog }: Props) {
     const addHedgehod = async (e) => {
         e.preventDefault();
         const formdata = new FormData(e.currentTarget);
@@ -32,7 +31,7 @@ export function HedgehogForm({coordinates, setSelectedHedgehogId, onAddHedgehog 
         .then(data => {
             console.log(data)
             if(data.hedgehog){
-                setSelectedHedgehogId(data.hedgehog.id);
+                // setSelectedHedgehogId(data.hedgehog.id);
                 onAddHedgehog(data.hedgehog);
                 document.getElementById('hedgehogForm').reset();
             }

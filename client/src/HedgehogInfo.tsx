@@ -62,24 +62,22 @@ export function HedgehogInfo({ hedgehogId, features, setFeatures }: Props) {
 
     if(hedgehog){
         console.log(hedgehog);
-        let coords = JSON.parse(hedgehog.hedgehog_lng_lat);
-        console.log(coords);
         if(hedgehog.hedgehog_lng_lat){
-            features=[
+            let coords = JSON.parse(hedgehog.hedgehog_lng_lat);
+            setFeatures([
                 {
                   type: 'Feature',
                   geometry: {
                     type: coords.type,
-                    coordinates: coords[coords.coordinates[0], coords.coordinates[1]],
+                    coordinates: coords.coordinates,
                   },
                   properties: {
                     name: hedgehog.hedgehog_name,
                     age: 50,
-                    gender: (hedgehog.hedgehog_gender == 'M' ? 'male' : 'female'),
+                    gender: hedgehog.hedgehog_gender === 'M' ? 'male' : 'female',
                   },
                 },
-              ];
-              setFeatures(features);
+            ]);
         }
         
         return (
